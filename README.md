@@ -20,3 +20,11 @@ O projeto consiste em uma **vitrine digital responsiva** para um pequeno negóci
 1. Baixe ou clone este repositório:  
    ```bash
    https://github.com/matheusnrc/avaliacao-modulo2-web.git
+2. Abra o arquivo index.html em qualquer navegador.
+(não é necessário servidor ou instalação extra)
+
+## Autor
+Matheus Nunes Rodrigues Cruz
+Curso: Tecnologia da Informação – UFMS
+Módulo: PROJETO INTEGRADOR DE TECNOLOGIA DA INFORMAÇÃO II
+Ano/Semestre: 2025/2
