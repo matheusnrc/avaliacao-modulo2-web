@@ -24,7 +24,7 @@ O projeto consiste em uma **vitrine digital responsiva** para um pequeno negóci
 (não é necessário servidor ou instalação extra)
 
 ## Autor
-Matheus Nunes Rodrigues Cruz
-Curso: Tecnologia da Informação – UFMS
-Módulo: PROJETO INTEGRADOR DE TECNOLOGIA DA INFORMAÇÃO II
-Ano/Semestre: 2025/2
+- Matheus Nunes Rodrigues Cruz
+- Curso: Tecnologia da Informação – UFMS
+- Módulo: PROJETO INTEGRADOR DE TECNOLOGIA DA INFORMAÇÃO II
+- Ano/Semestre: 2025/2
