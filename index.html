@@ -1,215 +1,562 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vitrine — Pequeno Negócio</title>
-  <meta name="description" content="Aplicação web responsiva com Bootstrap 5: vitrine de itens, filtro por categoria e carrinho simples.">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Monitoramento da Coleta de Lixo - São Carlos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
 
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-    crossorigin="anonymous"
-  >
-  <style>
-    .card img { object-fit: cover; height: 160px; }
-    .category-btns .btn { text-transform: none; }
-    .visually-hidden-focusable:focus { clip: auto; width: auto; height: auto; margin: 0; overflow: visible; }
-  </style>
-</head>
-<body class="bg-light">
-  <a class="visually-hidden-focusable position-absolute top-0 start-0 m-2 p-2 bg-white rounded" href="#conteudo">Pular para o conteúdo</a>
+    <style>
+      body {
+        background-color: #f5f7fa;
+      }
 
-  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Navegação principal">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#" aria-label="Página inicial">Meu Negócio</a>
+      .navbar-brand span {
+        font-weight: 600;
+      }
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Alternar navegação">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      .card-dashboard {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
 
-      <div id="navMain" class="collapse navbar-collapse">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
-          <li class="nav-item"><a class="nav-link" href="#itens">Itens</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
-        </ul>
+      .card-dashboard:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+      }
 
-        <div class="d-flex align-items-center gap-3">
-          <div class="position-relative" aria-live="polite" aria-atomic="true">
-            <span class="me-2">Carrinho</span>
-            <span class="badge text-bg-primary" id="cartCount" aria-label="Itens no carrinho">0</span>
-            <span class="ms-2 small text-secondary" id="cartTotal" aria-label="Total do carrinho">R$ 0,00</span>
-          </div>
-          <a class="btn btn-success" target="_blank" rel="noopener">Finalizar Carrinho</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+      .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
 
-  <header class="bg-white py-5 border-bottom">
-    <div class="container">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <h1 class="display-5 fw-semibold">Café & Artesanais em <span class="text-primary">São Carlos</span></h1>
-          <p class="lead text-secondary mt-3">Vitrine simples e responsiva para pequenos negócios. Filtre por categoria e adicione itens ao carrinho.</p>
-          <div class="d-flex gap-2 mt-3">
-            <a href="#itens" class="btn btn-primary">Ver Itens</a>
-            <a href="#contato" class="btn btn-outline-secondary">Contato</a>
-          </div>
-          <p class="text-secondary small mt-2">Seg–Sáb • 08:00–19:00 — Rua Exemplo, 123 • Centro, São Carlos/SP</p>
-        </div>
-        <div class="col-lg-6">
-          <img class="img-fluid rounded-4 shadow-sm" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1600&auto=format&fit=crop" alt="Xícara de café sobre balcão">
-        </div>
-      </div>
-    </div>
-  </header>
+      .badge-status-ativo {
+        background-color: #198754;
+      }
 
-  <main id="conteudo">
-    <section id="sobre" class="py-5">
+      .badge-status-inativo {
+        background-color: #dc3545;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
       <div class="container">
-        <h2 class="h3 fw-bold">Sobre</h2>
-        <p class="text-secondary mb-0">Trabalhamos com produtos artesanais e cafés especiais. Este protótipo demonstra boas práticas de HTML semântico, Bootstrap 5 e responsividade.</p>
-      </div>
-    </section>
-
-    <section id="itens" class="py-4 bg-white border-top border-bottom">
-      <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
-          <h2 class="h3 fw-bold mb-0">Destaques</h2>
-          <div class="btn-group category-btns" role="group" aria-label="Filtro por categoria">
-            <button type="button" class="btn btn-outline-primary active" data-filter="all" aria-pressed="true">Todos</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="bebidas">Bebidas</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="salgados">Salgados</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="doces">Doces</button>
-          </div>
-        </div>
-
-        <div class="row g-3" id="gridItens">
-          <div class="col-12 col-sm-6 col-lg-4 item" data-category="bebidas">
-            <div class="card h-100">
-              <img src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Cappuccino">
-              <div class="card-body d-flex flex-column">
-                <h3 class="h6 card-title">Cappuccino</h3>
-                <p class="card-text text-secondary small flex-grow-1">Equilíbrio entre espresso, leite e espuma.</p>
-                <div class="d-flex align-items-center justify-content-between">
-                  <span class="fw-semibold" data-price="12.9">R$ 12,90</span>
-                  <button class="btn btn-sm btn-primary add-to-cart" type="button" data-name="Cappuccino" data-price="12.9">Adicionar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-sm-6 col-lg-4 item" data-category="bebidas">
-            <div class="card h-100">
-              <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Espresso Duplo">
-              <div class="card-body d-flex flex-column">
-                <h3 class="h6 card-title">Espresso Duplo</h3>
-                <p class="card-text text-secondary small flex-grow-1">Tirado na hora, cremoso e intenso.</p>
-                <div class="d-flex align-items-center justify-content-between">
-                  <span class="fw-semibold" data-price="7.9">R$ 7,90</span>
-                  <button class="btn btn-sm btn-primary add-to-cart" type="button" data-name="Espresso Duplo" data-price="7.9">Adicionar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-sm-6 col-lg-4 item" data-category="salgados">
-            <div class="card h-100">
-              <img src="https://images.unsplash.com/photo-1541780890504-3a9a5e4bb90a?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Pão de Queijo">
-              <div class="card-body d-flex flex-column">
-                <h3 class="h6 card-title">Pão de Queijo</h3>
-                <p class="card-text text-secondary small flex-grow-1">Crocante por fora, macio por dentro.</p>
-                <div class="d-flex align-items-center justify-content-between">
-                  <span class="fw-semibold" data-price="6">R$ 6,00</span>
-                  <button class="btn btn-sm btn-primary add-to-cart" type="button" data-name="Pão de Queijo" data-price="6">Adicionar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-sm-6 col-lg-4 item" data-category="doces">
-            <div class="card h-100">
-              <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop" class="card-img-top" alt="Cookie">
-              <div class="card-body d-flex flex-column">
-                <h3 class="h6 card-title">Cookie</h3>
-                <p class="card-text text-secondary small flex-grow-1">Gotas de chocolate e baunilha.</p>
-                <div class="d-flex align-items-center justify-content-between">
-                  <span class="fw-semibold" data-price="5.5">R$ 5,50</span>
-                  <button class="btn btn-sm btn-primary add-to-cart" type="button" data-name="Cookie" data-price="5.5">Adicionar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <a class="navbar-brand" href="#">
+          <span>Coleta Inteligente - São Carlos</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Alternar navegação"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#cadastro">Pontos de Coleta</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#rotas">Consulta de Rotas</a>
+            </li>
+          </ul>
         </div>
       </div>
-    </section>
+    </nav>
 
-    <section id="contato" class="py-5">
-      <div class="container">
-        <h2 class="h4 fw-bold">Contato</h2>
-        <p class="mb-1">WhatsApp: (16) 9 9999-9999</p>
-        <p class="mb-0">Email: contato@meunegocio.com.br</p>
-      </div>
-    </section>
-  </main>
+    <main class="container my-4">
+      <section id="dashboard" aria-label="Visão geral do sistema">
+        <div class="mb-3">
+          <h1 class="h3 mb-1">Monitoramento inteligente da coleta de lixo</h1>
+          <p class="text-muted mb-0">
+            Prototipo de aplicação web para apoiar moradores e gestão pública na
+            cidade de São Carlos – SP.
+          </p>
+        </div>
 
-  <footer class="py-4 border-top bg-white">
-    <div class="container d-flex justify-content-between align-items-center">
-      <p class="mb-0 small text-secondary">© <span id="yy"></span> Meu Negócio — São Carlos/SP</p>
-      <a class="small" href="#topo">Voltar ao topo</a>
-    </div>
-  </footer>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="card card-dashboard h-100">
+              <div class="card-body">
+                <h2 class="card-title h6 text-muted">
+                  Total de pontos cadastrados
+                </h2>
+                <p class="display-6 mb-0" id="card-total-pontos">0</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-dashboard h-100">
+              <div class="card-body">
+                <h2 class="card-title h6 text-muted">
+                  Pontos com coleta ativa
+                </h2>
+                <p class="display-6 mb-0" id="card-pontos-ativos">0</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-dashboard h-100">
+              <div class="card-body">
+                <h2 class="card-title h6 text-muted">Bairros atendidos</h2>
+                <p class="display-6 mb-0" id="card-bairros">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"
-  ></script>
+      <hr class="my-4" />
+      <section
+        id="cadastro"
+        class="mb-4"
+        aria-label="Cadastro de pontos de coleta"
+      >
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 class="section-title mb-0">Cadastro de ponto de coleta</h2>
+          <small class="text-muted"
+            >Preencha os dados e adicione um novo ponto.</small
+          >
+        </div>
 
-  <script defer>
-    const yy = document.getElementById('yy');
-    yy.textContent = new Date().getFullYear();
+        <div class="row g-3">
+          <div class="col-lg-5">
+            <form id="form-ponto" class="card p-3 needs-validation" novalidate>
+              <div class="mb-3">
+                <label for="nomePonto" class="form-label"
+                  >Nome do ponto *</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nomePonto"
+                  name="nomePonto"
+                  required
+                  placeholder="Ex.: Ponto 01 - Rua X, esquina com Y"
+                />
+                <div class="invalid-feedback">
+                  Informe um nome para o ponto de coleta.
+                </div>
+              </div>
 
-    const btns = document.querySelectorAll('[data-filter]');
-    const items = document.querySelectorAll('#gridItens .item');
+              <div class="mb-3">
+                <label for="bairro" class="form-label">Bairro *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="bairro"
+                  name="bairro"
+                  required
+                  placeholder="Ex.: Vila Prado"
+                />
+                <div class="invalid-feedback">Informe o bairro do ponto.</div>
+              </div>
 
-    btns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        btns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+              <div class="mb-3">
+                <label for="tipoResiduo" class="form-label"
+                  >Tipo de resíduo *</label
+                >
+                <select
+                  class="form-select"
+                  id="tipoResiduo"
+                  name="tipoResiduo"
+                  required
+                >
+                  <option value="">Selecione...</option>
+                  <option value="Doméstico">Doméstico</option>
+                  <option value="Reciclável">Reciclável</option>
+                  <option value="Orgânico">Orgânico</option>
+                  <option value="Outros">Outros</option>
+                </select>
+                <div class="invalid-feedback">Selecione o tipo de resíduo.</div>
+              </div>
 
-        const cat = btn.dataset.filter;
-        items.forEach(card => {
-          const show = (cat === 'all') || (card.dataset.category === cat);
-          card.classList.toggle('d-none', !show);
+              <div class="mb-3">
+                <label for="diaSemana" class="form-label"
+                  >Dia da coleta *</label
+                >
+                <select
+                  class="form-select"
+                  id="diaSemana"
+                  name="diaSemana"
+                  required
+                >
+                  <option value="">Selecione...</option>
+                  <option value="Segunda-feira">Segunda-feira</option>
+                  <option value="Terça-feira">Terça-feira</option>
+                  <option value="Quarta-feira">Quarta-feira</option>
+                  <option value="Quinta-feira">Quinta-feira</option>
+                  <option value="Sexta-feira">Sexta-feira</option>
+                  <option value="Sábado">Sábado</option>
+                </select>
+                <div class="invalid-feedback">Selecione o dia da coleta.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="horario" class="form-label"
+                  >Horário previsto *</label
+                >
+                <input
+                  type="time"
+                  class="form-control"
+                  id="horario"
+                  name="horario"
+                  required
+                />
+                <div class="invalid-feedback">Informe um horário previsto.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="status" class="form-label">Status do ponto *</label>
+                <select class="form-select" id="status" name="status" required>
+                  <option value="">Selecione...</option>
+                  <option value="Ativo">Ativo</option>
+                  <option value="Inativo">Inativo</option>
+                </select>
+                <div class="invalid-feedback">Informe o status do ponto.</div>
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-success">
+                  Adicionar ponto de coleta
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h3 class="h6 mb-0">Pontos cadastrados</h3>
+              <div class="d-flex gap-2">
+                <input
+                  type="text"
+                  id="filtro-bairro"
+                  class="form-control form-control-sm"
+                  placeholder="Filtrar por bairro"
+                  aria-label="Filtrar pontos por bairro"
+                />
+                <select
+                  id="filtro-dia"
+                  class="form-select form-select-sm"
+                  aria-label="Filtrar pontos por dia da semana"
+                >
+                  <option value="">Todos os dias</option>
+                  <option value="Segunda-feira">Segunda-feira</option>
+                  <option value="Terça-feira">Terça-feira</option>
+                  <option value="Quarta-feira">Quarta-feira</option>
+                  <option value="Quinta-feira">Quinta-feira</option>
+                  <option value="Sexta-feira">Sexta-feira</option>
+                  <option value="Sábado">Sábado</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table
+                class="table table-sm table-hover align-middle"
+                aria-describedby="Tabela de pontos de coleta"
+              >
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">Ponto</th>
+                    <th scope="col">Bairro</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Dia</th>
+                    <th scope="col">Horário</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-pontos">
+                </tbody>
+              </table>
+            </div>
+
+            <p class="text-muted small mb-0">
+              *Os dados são de demonstração (mock).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="my-4" />
+
+      <section id="rotas" class="mb-5" aria-label="Consulta de rotas de coleta">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 class="section-title mb-0">Consulta de rotas</h2>
+          <small class="text-muted"
+            >Simulação de rotas com base nos pontos cadastrados.</small
+          >
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="card p-3">
+              <form id="form-rota">
+                <div class="mb-3">
+                  <label for="rota-bairro" class="form-label">Bairro</label>
+                  <input
+                    type="text"
+                    id="rota-bairro"
+                    class="form-control"
+                    placeholder="Ex.: Vila Prado"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="rota-dia" class="form-label">Dia da semana</label>
+                  <select id="rota-dia" class="form-select">
+                    <option value="">Todos os dias</option>
+                    <option value="Segunda-feira">Segunda-feira</option>
+                    <option value="Terça-feira">Terça-feira</option>
+                    <option value="Quarta-feira">Quarta-feira</option>
+                    <option value="Quinta-feira">Quinta-feira</option>
+                    <option value="Sexta-feira">Sexta-feira</option>
+                    <option value="Sábado">Sábado</option>
+                  </select>
+                </div>
+
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-outline-success">
+                    Consultar rota
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h6 mb-3">Resultado da consulta</h3>
+                <ul class="list-group mb-3" id="lista-rotas">
+                  <li class="list-group-item text-muted">
+                    Nenhuma rota consultada ainda. Use o formulário ao lado para
+                    visualizar.
+                  </li>
+                </ul>
+
+                <p class="text-muted small mb-0">
+                  *Nesta versão de protótipo, a rota é apresentada como uma
+                  lista ordenada de pontos. Futuramente, pode ser integrada a um
+                  mapa (Leaflet, Google Maps etc.).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      const pontosDeColeta = [];
+
+      const formPonto = document.getElementById("form-ponto");
+      const tabelaPontos = document.getElementById("tabela-pontos");
+      const filtroBairro = document.getElementById("filtro-bairro");
+      const filtroDia = document.getElementById("filtro-dia");
+
+      const cardTotalPontos = document.getElementById("card-total-pontos");
+      const cardPontosAtivos = document.getElementById("card-pontos-ativos");
+      const cardBairros = document.getElementById("card-bairros");
+
+      const formRota = document.getElementById("form-rota");
+      const rotaBairro = document.getElementById("rota-bairro");
+      const rotaDia = document.getElementById("rota-dia");
+      const listaRotas = document.getElementById("lista-rotas");
+
+      function atualizarDashboard() {
+        cardTotalPontos.textContent = pontosDeColeta.length;
+
+        const ativos = pontosDeColeta.filter(
+          (p) => p.status === "Ativo"
+        ).length;
+        cardPontosAtivos.textContent = ativos;
+
+        const bairrosUnicos = new Set(
+          pontosDeColeta
+            .map((p) => p.bairro.trim().toLowerCase())
+            .filter((b) => b !== "")
+        );
+        cardBairros.textContent = bairrosUnicos.size;
+      }
+
+      function renderizarTabela() {
+        const bairroFiltro = filtroBairro.value.trim().toLowerCase();
+        const diaFiltro = filtroDia.value;
+
+        tabelaPontos.innerHTML = "";
+
+        const pontosFiltrados = pontosDeColeta.filter((p) => {
+          const bairroOk =
+            bairroFiltro === "" ||
+            p.bairro.toLowerCase().includes(bairroFiltro);
+          const diaOk = diaFiltro === "" || p.diaSemana === diaFiltro;
+          return bairroOk && diaOk;
+        });
+
+        if (pontosFiltrados.length === 0) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 6;
+          td.className = "text-muted text-center";
+          td.textContent = "Nenhum ponto encontrado com os filtros atuais.";
+          tr.appendChild(td);
+          tabelaPontos.appendChild(tr);
+          return;
+        }
+
+        pontosFiltrados.forEach((ponto) => {
+          const tr = document.createElement("tr");
+
+          const tdNome = document.createElement("td");
+          tdNome.textContent = ponto.nomePonto;
+          tr.appendChild(tdNome);
+
+          const tdBairro = document.createElement("td");
+          tdBairro.textContent = ponto.bairro;
+          tr.appendChild(tdBairro);
+
+          const tdTipo = document.createElement("td");
+          tdTipo.textContent = ponto.tipoResiduo;
+          tr.appendChild(tdTipo);
+
+          const tdDia = document.createElement("td");
+          tdDia.textContent = ponto.diaSemana;
+          tr.appendChild(tdDia);
+
+          const tdHorario = document.createElement("td");
+          tdHorario.textContent = ponto.horario;
+          tr.appendChild(tdHorario);
+
+          const tdStatus = document.createElement("td");
+          const spanStatus = document.createElement("span");
+          spanStatus.classList.add("badge");
+
+          if (ponto.status === "Ativo") {
+            spanStatus.classList.add("badge-status-ativo");
+          } else {
+            spanStatus.classList.add("badge-status-inativo");
+          }
+
+          spanStatus.textContent = ponto.status;
+          tdStatus.appendChild(spanStatus);
+          tr.appendChild(tdStatus);
+
+          tabelaPontos.appendChild(tr);
+        });
+      }
+
+      formPonto.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (!formPonto.checkValidity()) {
+          event.stopPropagation();
+          formPonto.classList.add("was-validated");
+          return;
+        }
+
+        const novoPonto = {
+          id: Date.now(),
+          nomePonto: document.getElementById("nomePonto").value.trim(),
+          bairro: document.getElementById("bairro").value.trim(),
+          tipoResiduo: document.getElementById("tipoResiduo").value,
+          diaSemana: document.getElementById("diaSemana").value,
+          horario: document.getElementById("horario").value,
+          status: document.getElementById("status").value,
+        };
+
+        pontosDeColeta.push(novoPonto);
+
+        formPonto.reset();
+        formPonto.classList.remove("was-validated");
+
+        atualizarDashboard();
+        renderizarTabela();
+      });
+
+      filtroBairro.addEventListener("input", renderizarTabela);
+      filtroDia.addEventListener("change", renderizarTabela);
+
+      formRota.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const bairro = rotaBairro.value.trim().toLowerCase();
+        const dia = rotaDia.value;
+
+        listaRotas.innerHTML = "";
+
+        let pontosFiltrados = pontosDeColeta.filter(
+          (p) => p.status === "Ativo"
+        );
+
+        if (bairro !== "") {
+          pontosFiltrados = pontosFiltrados.filter((p) =>
+            p.bairro.toLowerCase().includes(bairro)
+          );
+        }
+
+        if (dia !== "") {
+          pontosFiltrados = pontosFiltrados.filter((p) => p.diaSemana === dia);
+        }
+
+        pontosFiltrados.sort((a, b) => {
+          if (a.diaSemana === b.diaSemana) {
+            return a.horario.localeCompare(b.horario);
+          }
+          return a.diaSemana.localeCompare(b.diaSemana);
+        });
+
+        if (pontosFiltrados.length === 0) {
+          const li = document.createElement("li");
+          li.className = "list-group-item text-muted";
+          li.textContent =
+            "Nenhum ponto encontrado para os filtros informados.";
+          listaRotas.appendChild(li);
+          return;
+        }
+
+        pontosFiltrados.forEach((ponto, index) => {
+          const li = document.createElement("li");
+          li.className = "list-group-item";
+
+          li.innerHTML = `
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <strong>Parada ${index + 1}:</strong> ${ponto.nomePonto}<br />
+              <span class="text-muted small">
+                Bairro: ${ponto.bairro} • Dia: ${ponto.diaSemana} • Horário: ${
+            ponto.horario
+          }
+              </span><br />
+              <span class="small">Tipo de resíduo: ${ponto.tipoResiduo}</span>
+            </div>
+          </div>
+        `;
+
+          listaRotas.appendChild(li);
         });
       });
-    });
 
-    const cartCount = document.getElementById('cartCount');
-    const cartTotal = document.getElementById('cartTotal');
-    let count = 0;
-    let total = 0;
-
-    function formatBRL(v) {
-      return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
-
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const price = parseFloat(btn.dataset.price || '0');
-        count += 1;
-        total += price;
-        cartCount.textContent = String(count);
-        cartTotal.textContent = formatBRL(total);
-        
-        cartTotal.setAttribute('aria-live', 'polite');
-      });
-    });
-  </script>
-</body>
+      atualizarDashboard();
+      renderizarTabela();
+    </script>
+  </body>
 </html>

@@ -6,8 +6,9 @@ O projeto consiste em uma **vitrine digital responsiva** para um pequeno negóci
 
 ## Funcionalidades
 - Layout totalmente responsivo (mobile-first)  
-- Filtro de itens por categoria (bebidas, salgados, doces)  
-- Carrinho simples (contagem e soma do total)  
+- Dashboard para acompanhamento de coleta
+- Cadastrar um novo ponto de coleta
+- Consultar pontos de coleta de acordo com uma base de dados 
 - Acessibilidade (uso de `aria-label`, contraste e navegação por teclado)  
 - Estrutura semântica com `<header>`, `<main>`, `<section>`, `<footer>`  
 
