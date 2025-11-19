@@ -1,31 +1,48 @@
-# PI2 – Aplicação Web Responsiva com Bootstrap 5
+# PI2 – Aplicação Web Responsiva (Monitoramento da Coleta)
 
-## Descrição
-Aplicação web desenvolvida como parte do **Projeto Integrador de Tecnologia da Informação II (UFMS)**.  
-O projeto consiste em uma **vitrine digital responsiva** para um pequeno negócio local, criada com **Bootstrap 5**, **HTML semântico**, **CSS responsivo** e **JavaScript leve** para interatividade.
+## Sobre o Projeto
+
+Protótipo desenvolvido para o **Projeto Integrador de Tecnologia da Informação II – UFMS**, com foco no monitoramento da coleta de lixo urbano em São Carlos – SP.
+A aplicação permite cadastrar pontos de coleta, registrar ocorrências e consultar rotas de forma simples e responsiva.
+
+---
 
 ## Funcionalidades
-- Layout totalmente responsivo (mobile-first)  
-- Dashboard para acompanhamento de coleta
-- Cadastrar um novo ponto de coleta
-- Consultar pontos de coleta de acordo com uma base de dados 
-- Acessibilidade (uso de `aria-label`, contraste e navegação por teclado)  
-- Estrutura semântica com `<header>`, `<main>`, `<section>`, `<footer>`  
 
-## Tecnologias utilizadas
-- **HTML5**  
-- **CSS3 / Bootstrap 5** (via CDN)  
-- **JavaScript (ES6+)**  
+* Dashboard com indicadores gerais
+* Cadastro e listagem de pontos de coleta
+* Filtros por bairro e dia da semana
+* Registro de reclamações/ocorrências
+* Consulta simulada de rotas
+* Layout responsivo com Bootstrap 5
+* HTML semântico e interatividade com JavaScript
 
-## Como executar
-1. Baixe ou clone este repositório:  
+---
+
+## Tecnologias
+
+* **HTML5**
+* **CSS3 / Bootstrap 5**
+* **JavaScript (ES6+)**
+
+---
+
+## Como Executar
+
+1. Clone o repositório:
+
    ```bash
-   https://github.com/matheusnrc/avaliacao-modulo2-web.git
-2. Abra o arquivo index.html em qualquer navegador.
-(não é necessário servidor ou instalação extra)
+   git clone https://github.com/matheusnrc/avaliacao-modulo2-web.git
+   ```
+2. Abra o arquivo **index.html** no navegador.
+   *(Não requer servidor ou instalações adicionais.)*
+
+---
 
 ## Autor
-- Matheus Nunes Rodrigues Cruz
-- Curso: Tecnologia da Informação – UFMS
-- Módulo: PROJETO INTEGRADOR DE TECNOLOGIA DA INFORMAÇÃO II
-- Ano/Semestre: 2025/2
+
+- **Matheus Nunes Rodrigues Cruz**
+- Curso de Tecnologia da Informação – UFMS
+- Projeto Integrador II – 2025/2
+
+---
