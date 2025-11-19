@@ -69,6 +69,9 @@
               <a class="nav-link" href="#cadastro">Pontos de Coleta</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="#ocorrencias">Ocorrências</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="#rotas">Consulta de Rotas</a>
             </li>
           </ul>
@@ -292,6 +295,123 @@
 
       <hr class="my-4" />
 
+      <section
+        id="ocorrencias"
+        class="mb-4"
+        aria-label="Registro de reclamações ou ocorrências"
+      >
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 class="section-title mb-0">
+            Registro de reclamações / ocorrências
+          </h2>
+          <small class="text-muted"
+            >Moradores podem registrar problemas relacionados à coleta.</small
+          >
+        </div>
+
+        <div class="row g-3">
+          <div class="col-lg-5">
+            <form
+              id="form-ocorrencia"
+              class="card p-3 needs-validation"
+              novalidate
+            >
+              <div class="mb-3">
+                <label for="ocorrencia-ponto" class="form-label"
+                  >Ponto de coleta *</label
+                >
+                <select id="ocorrencia-ponto" class="form-select" required>
+                  <option value="">Selecione...</option>
+                </select>
+                <div class="invalid-feedback">
+                  Selecione o ponto relacionado à ocorrência.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="ocorrencia-tipo" class="form-label"
+                  >Tipo de ocorrência *</label
+                >
+                <select id="ocorrencia-tipo" class="form-select" required>
+                  <option value="">Selecione...</option>
+                  <option value="Atraso na coleta">Atraso na coleta</option>
+                  <option value="Falta de coleta">Falta de coleta</option>
+                  <option value="Lixo acumulado">Lixo acumulado</option>
+                  <option value="Outros">Outros</option>
+                </select>
+                <div class="invalid-feedback">
+                  Selecione o tipo de ocorrência.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="ocorrencia-descricao" class="form-label"
+                  >Descrição detalhada *</label
+                >
+                <textarea
+                  id="ocorrencia-descricao"
+                  class="form-control"
+                  rows="4"
+                  required
+                  placeholder="Descreva o problema observado no local..."
+                ></textarea>
+                <div class="invalid-feedback">
+                  Descreva brevemente o problema.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="ocorrencia-contato" class="form-label">
+                  Contato (opcional)
+                </label>
+                <input
+                  type="text"
+                  id="ocorrencia-contato"
+                  class="form-control"
+                  placeholder="E-mail ou telefone para retorno"
+                />
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-warning">
+                  Registrar ocorrência
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-lg-7">
+            <h3 class="h6 mb-2">Ocorrências registradas</h3>
+            <div class="table-responsive">
+              <table class="table table-sm table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Ponto / Bairro</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-ocorrencias">
+                  <tr>
+                    <td colspan="5" class="text-muted text-center">
+                      Nenhuma ocorrência registrada até o momento.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-muted small mb-0">
+              *As ocorrências ficam associadas aos pontos de coleta cadastrados
+              e podem ser utilizadas para priorizar ações da gestão pública.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="my-4" />
+
       <section id="rotas" class="mb-5" aria-label="Consulta de rotas de coleta">
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h2 class="section-title mb-0">Consulta de rotas</h2>
@@ -367,6 +487,7 @@
 
     <script>
       const pontosDeColeta = [];
+      const ocorrencias = [];
 
       const formPonto = document.getElementById("form-ponto");
       const tabelaPontos = document.getElementById("tabela-pontos");
@@ -376,6 +497,15 @@
       const cardTotalPontos = document.getElementById("card-total-pontos");
       const cardPontosAtivos = document.getElementById("card-pontos-ativos");
       const cardBairros = document.getElementById("card-bairros");
+
+      const formOcorrencia = document.getElementById("form-ocorrencia");
+      const selectPontoOcorrencia = document.getElementById("ocorrencia-ponto");
+      const tabelaOcorrencias = document.getElementById("tabela-ocorrencias");
+      const ocorrenciaTipo = document.getElementById("ocorrencia-tipo");
+      const ocorrenciaDescricao = document.getElementById(
+        "ocorrencia-descricao"
+      );
+      const ocorrenciaContato = document.getElementById("ocorrencia-contato");
 
       const formRota = document.getElementById("form-rota");
       const rotaBairro = document.getElementById("rota-bairro");
@@ -396,6 +526,29 @@
             .filter((b) => b !== "")
         );
         cardBairros.textContent = bairrosUnicos.size;
+      }
+
+      function atualizarSelectPontosOcorrencias() {
+        selectPontoOcorrencia.innerHTML = "";
+        const optionInicial = document.createElement("option");
+        optionInicial.value = "";
+        optionInicial.textContent = "Selecione...";
+        selectPontoOcorrencia.appendChild(optionInicial);
+
+        if (pontosDeColeta.length === 0) {
+          const opt = document.createElement("option");
+          opt.disabled = true;
+          opt.textContent = "Nenhum ponto cadastrado";
+          selectPontoOcorrencia.appendChild(opt);
+          return;
+        }
+
+        pontosDeColeta.forEach((p) => {
+          const option = document.createElement("option");
+          option.value = p.id;
+          option.textContent = `${p.nomePonto} - ${p.bairro}`;
+          selectPontoOcorrencia.appendChild(option);
+        });
       }
 
       function renderizarTabela() {
@@ -464,6 +617,50 @@
         });
       }
 
+      function renderizarOcorrencias() {
+        tabelaOcorrencias.innerHTML = "";
+
+        if (ocorrencias.length === 0) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 5;
+          td.className = "text-muted text-center";
+          td.textContent = "Nenhuma ocorrência registrada até o momento.";
+          tr.appendChild(td);
+          tabelaOcorrencias.appendChild(tr);
+          return;
+        }
+
+        ocorrencias.forEach((oc) => {
+          const tr = document.createElement("tr");
+
+          const tdData = document.createElement("td");
+          tdData.textContent = oc.data;
+          tr.appendChild(tdData);
+
+          const tdPonto = document.createElement("td");
+          tdPonto.innerHTML = `<strong>${oc.pontoNome}</strong><br /><span class="text-muted small">${oc.bairro}</span>`;
+          tr.appendChild(tdPonto);
+
+          const tdTipo = document.createElement("td");
+          tdTipo.textContent = oc.tipo;
+          tr.appendChild(tdTipo);
+
+          const tdDescricao = document.createElement("td");
+          tdDescricao.textContent = oc.descricao;
+          tr.appendChild(tdDescricao);
+
+          const tdStatus = document.createElement("td");
+          const badge = document.createElement("span");
+          badge.classList.add("badge", "bg-warning", "text-dark");
+          badge.textContent = oc.status;
+          tdStatus.appendChild(badge);
+          tr.appendChild(tdStatus);
+
+          tabelaOcorrencias.appendChild(tr);
+        });
+      }
+
       formPonto.addEventListener("submit", (event) => {
         event.preventDefault();
 
@@ -490,10 +687,45 @@
 
         atualizarDashboard();
         renderizarTabela();
+        atualizarSelectPontosOcorrencias();
       });
 
       filtroBairro.addEventListener("input", renderizarTabela);
       filtroDia.addEventListener("change", renderizarTabela);
+
+      formOcorrencia.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (!formOcorrencia.checkValidity()) {
+          event.stopPropagation();
+          formOcorrencia.classList.add("was-validated");
+          return;
+        }
+
+        const pontoId = parseInt(selectPontoOcorrencia.value, 10);
+        const pontoRelacionado = pontosDeColeta.find((p) => p.id === pontoId);
+
+        const novaOcorrencia = {
+          id: Date.now(),
+          pontoId: pontoId,
+          pontoNome: pontoRelacionado
+            ? pontoRelacionado.nomePonto
+            : "Ponto não identificado",
+          bairro: pontoRelacionado ? pontoRelacionado.bairro : "",
+          tipo: ocorrenciaTipo.value,
+          descricao: ocorrenciaDescricao.value.trim(),
+          contato: ocorrenciaContato.value.trim(),
+          status: "Aberta",
+          data: new Date().toLocaleString("pt-BR"),
+        };
+
+        ocorrencias.push(novaOcorrencia);
+
+        formOcorrencia.reset();
+        formOcorrencia.classList.remove("was-validated");
+
+        renderizarOcorrencias();
+      });
 
       formRota.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -517,7 +749,7 @@
           pontosFiltrados = pontosFiltrados.filter((p) => p.diaSemana === dia);
         }
 
-        pontosFiltrados.sort((a, b) => {
+       pontosFiltrados.sort((a, b) => {
           if (a.diaSemana === b.diaSemana) {
             return a.horario.localeCompare(b.horario);
           }
@@ -557,6 +789,8 @@
 
       atualizarDashboard();
       renderizarTabela();
+      atualizarSelectPontosOcorrencias();
+      renderizarOcorrencias();
     </script>
   </body>
 </html>
